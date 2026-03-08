@@ -1,0 +1,41 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-primary: #6c3bf5;
+  --color-primary-dark: #4b1fd1;
+  --color-accent: #f5a623;
+  --color-surface: #f8f7ff;
+  --color-mall-dark: #1a1033;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@layer utilities {
+  .gradient-primary {
+    background: linear-gradient(135deg, #1a1033 0%, #6c3bf5 60%, #2d1b69 100%);
+  }
+
+  .gradient-card {
+    background: linear-gradient(135deg, #6c3bf5 0%, #9b6bff 100%);
+  }
+
+  .text-gradient {
+    background: linear-gradient(135deg, #9b6bff, #f5a623);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
