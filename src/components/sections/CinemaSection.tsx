@@ -215,7 +215,7 @@ export default function CinemaSection() {
 
         {/* Movie grid — mobile: horizontal scroll, desktop: 4-col grid */}
         <div
-          className="grid grid-cols-2 gap-3 lg:grid-cols-4 lg:gap-5"
+          className="grid grid-cols-1 gap-4 lg:grid-cols-4 lg:gap-5"
           role="list"
           aria-label="Фильмы в прокате"
         >
