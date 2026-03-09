@@ -57,6 +57,7 @@ ${mallData.food.map((f) => `- ${f.name} (${f.type}, ${f.floor}-й этаж): ${f
 
 РАЗВЛЕЧЕНИЯ:
 - Кинотеатр ${mallData.entertainment.cinema.name}: ${mallData.entertainment.cinema.halls} залов (${mallData.entertainment.cinema.total_seats} мест), форматы: ${mallData.entertainment.cinema.formats.join(", ")}. Часы: ${mallData.entertainment.cinema.hours}. Билеты: ${mallData.entertainment.cinema.booking}.
+- Расписание кино (сегодня): ${mallData.entertainment.cinema.cinema_schedule.map(m => `«${m.title}» (${m.genre}, ${m.age_rating}, ${m.duration_min} мин, ${m.sessions.filter(s => s.day === 0).map(s => `${s.format}: ${s.times.join(", ")}`).join("; ")})`).join(" | ")}
 - Боулинг ${mallData.entertainment.bowling.name}: ${mallData.entertainment.bowling.lanes} дорожек. Часы: ${mallData.entertainment.bowling.hours}. Цена: ${mallData.entertainment.bowling.price_per_game}.
 - Детская зона ${mallData.entertainment.kids_zone.name}: ${mallData.entertainment.kids_zone.area_sqm} кв.м., для детей 1–12 лет. Часы: ${mallData.entertainment.kids_zone.hours}. Цена: ${mallData.entertainment.kids_zone.price}.
 - VR-зона ${mallData.entertainment.vr_zone.name}: ${mallData.entertainment.vr_zone.description}. Часы: ${mallData.entertainment.vr_zone.hours}. Цена: ${mallData.entertainment.vr_zone.price}.
