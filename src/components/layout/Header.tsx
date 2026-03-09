@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import SearchBar from "@/components/chat/SearchBar";
 
 const navLinks = [
   { href: "#shops", label: "Магазины" },
@@ -54,12 +53,8 @@ export default function Header() {
             </span>
           </a>
 
-          {/* Desktop nav — hidden when search bar is shown */}
-          <nav
-            className={`hidden lg:flex items-center gap-8 transition-all duration-300 ${
-              pastHero ? "opacity-0 pointer-events-none w-0 overflow-hidden" : "opacity-100"
-            }`}
-          >
+          {/* Desktop nav */}
+          <nav className="hidden lg:flex items-center gap-8">
             {navLinks.map((link) => (
               <a
                 key={link.href}
@@ -71,20 +66,22 @@ export default function Header() {
             ))}
           </nav>
 
-          {/* Centered search bar — fades in after scrolling past hero */}
-          <div
-            className={`hidden lg:block flex-1 max-w-md mx-4 transition-all duration-500 ${
-              pastHero
-                ? "opacity-100 translate-y-0"
-                : "opacity-0 -translate-y-2 pointer-events-none"
-            }`}
-            aria-hidden={!pastHero}
-          >
-            <SearchBar
-              size="sm"
-              placeholder="Поиск по ТРЦ «Галактика»..."
-            />
-          </div>
+          {/* Spacer when nav is visible */}
+          {!pastHero && <div className="hidden lg:block flex-1" />}
+
+          {/* Chat button — fades in after scrolling past hero */}
+          {pastHero && (
+            <button
+              onClick={() => window.dispatchEvent(new CustomEvent("open-chat"))}
+              className="hidden lg:flex items-center gap-2 px-4 py-2 rounded-full gradient-primary text-white text-sm font-medium shadow-lg hover:opacity-90 transition-opacity animate-fade-in flex-shrink-0"
+              aria-label="Открыть чат-ассистент"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+              </svg>
+              Спросить ассистента
+            </button>
+          )}
 
           {/* Desktop phone */}
           <a
