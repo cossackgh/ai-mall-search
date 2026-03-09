@@ -8,6 +8,7 @@ type BookingRecord = {
   guests: number;
   name: string;
   phone: string;
+  email: string;
   createdAt: string;
 };
 
@@ -16,9 +17,9 @@ const bookings = new Map<string, BookingRecord>();
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
-  const { restaurant, date, time, guests, name, phone } = body;
+  const { restaurant, date, time, guests, name, phone, email } = body;
 
-  if (!restaurant || !date || !time || !guests || !name || !phone) {
+  if (!restaurant || !date || !time || !guests || !name || !phone || !email) {
     return NextResponse.json({ error: "Заполните все поля" }, { status: 400 });
   }
 
@@ -31,6 +32,7 @@ export async function POST(req: NextRequest) {
     guests: Number(guests),
     name: name.trim(),
     phone: phone.trim(),
+    email: email.trim(),
     createdAt: new Date().toISOString(),
   };
   bookings.set(id, record);

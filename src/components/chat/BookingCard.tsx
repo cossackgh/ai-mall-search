@@ -15,9 +15,20 @@ type BookingResult = {
   guests: number;
   name: string;
   phone: string;
+  email: string;
 };
 
 const addDays = (d: Date, n: number) => new Date(d.getTime() + n * 86400000);
+
+function formatPhone(raw: string): string {
+  const digits = raw.replace(/\D/g, "");
+  const d = digits.startsWith("7") || digits.startsWith("8") ? digits.slice(1) : digits;
+  if (d.length === 0) return "+7";
+  if (d.length <= 3) return `+7 (${d}`;
+  if (d.length <= 6) return `+7 (${d.slice(0, 3)}) ${d.slice(3)}`;
+  if (d.length <= 8) return `+7 (${d.slice(0, 3)}) ${d.slice(3, 6)}-${d.slice(6)}`;
+  return `+7 (${d.slice(0, 3)}) ${d.slice(3, 6)}-${d.slice(6, 8)}-${d.slice(8, 10)}`;
+}
 
 const fmtLabel = (d: Date) => {
   const today = new Date();
@@ -44,13 +55,14 @@ export default function BookingCard({ restaurant, slots }: Props) {
   const [guests, setGuests] = useState<number>(2);
   const [name, setName] = useState<string>("");
   const [phone, setPhone] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
 
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [result, setResult] = useState<BookingResult | null>(null);
   const [errorMsg, setErrorMsg] = useState<string>("");
 
   const handleSubmit = async () => {
-    if (!selectedTime || !name.trim() || !phone.trim()) {
+    if (!selectedTime || !name.trim() || !phone.trim() || !email.trim()) {
       setErrorMsg("Пожалуйста, заполните все поля и выберите время.");
       return;
     }
@@ -68,6 +80,7 @@ export default function BookingCard({ restaurant, slots }: Props) {
           guests,
           name: name.trim(),
           phone: phone.trim(),
+          email: email.trim(),
         }),
       });
 
@@ -112,7 +125,9 @@ export default function BookingCard({ restaurant, slots }: Props) {
           </div>
         </div>
         <p className="text-xs text-gray-500 mt-2">
-          Сохраните номер брони — он понадобится при входе в ресторан.
+          Подтверждение отправлено на{" "}
+          <span className="font-medium text-gray-700">{result.email}</span>.
+          Номер брони понадобится при входе в ресторан.
         </p>
       </div>
     );
@@ -219,8 +234,21 @@ export default function BookingCard({ restaurant, slots }: Props) {
         <input
           type="tel"
           value={phone}
-          onChange={(e) => setPhone(e.target.value)}
+          onChange={(e) => setPhone(formatPhone(e.target.value))}
           placeholder="+7 (___) ___-__-__"
+          maxLength={18}
+          className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-xs text-gray-800 placeholder-gray-400 focus:outline-none focus:border-violet-400 transition-colors"
+        />
+      </div>
+
+      {/* Email input */}
+      <div className="mb-3">
+        <label className="text-xs font-medium text-gray-500 mb-1.5 block">Email для подтверждения</label>
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="ivan@example.com"
           className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-xs text-gray-800 placeholder-gray-400 focus:outline-none focus:border-violet-400 transition-colors"
         />
       </div>
