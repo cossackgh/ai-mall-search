@@ -70,10 +70,10 @@ function MovieCard({ movie }: { movie: Movie }) {
   const todayFormats = Array.from(new Set(todaySessions.map((s) => s.format)));
 
   return (
-    <article className="rounded-2xl overflow-hidden shadow-lg shadow-black/30 bg-white flex flex-col h-full">
+    <article className="rounded-2xl overflow-hidden shadow-lg shadow-black/30 bg-white flex flex-row lg:flex-col h-full">
       {/* Poster */}
       <div
-        className={`relative aspect-[2/3] bg-gradient-to-br ${movie.poster_from} ${movie.poster_to} overflow-hidden`}
+        className={`relative w-32 flex-shrink-0 lg:w-auto lg:aspect-[2/3] bg-gradient-to-br ${movie.poster_from} ${movie.poster_to} overflow-hidden`}
         aria-label={`Постер фильма ${movie.title}`}
       >
         {movie.poster_url ? (
@@ -101,8 +101,8 @@ function MovieCard({ movie }: { movie: Movie }) {
           ))}
         </div>
 
-        {/* Title overlay */}
-        <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/80 to-transparent p-3">
+        {/* Title overlay — desktop only */}
+        <div className="hidden lg:block absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/80 to-transparent p-3">
           <p className="text-white font-bold text-sm leading-tight">{movie.title}</p>
           <p className="text-white/60 text-xs">
             {movie.age_rating} · {movie.duration_min} мин
@@ -112,6 +112,8 @@ function MovieCard({ movie }: { movie: Movie }) {
 
       {/* Info */}
       <div className="p-3 flex flex-col flex-1">
+        {/* Title — mobile only */}
+        <p className="lg:hidden font-bold text-sm text-gray-900 leading-tight mb-0.5">{movie.title}</p>
         <p className="text-xs text-gray-500 mb-2">{movie.genre}</p>
 
         {/* Age + duration row */}
