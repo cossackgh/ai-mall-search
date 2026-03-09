@@ -6,7 +6,7 @@ export function buildSystemPrompt(): string {
 Твоя единственная задача — помогать посетителям с вопросами о нашем ТРЦ.
 
 ВАЖНЫЕ ПРАВИЛА:
-1. Отвечай ТОЛЬКО на вопросы, связанные с ТРЦ «Галактика»: магазины, рестораны, развлечения, акции, парковка, часы работы, услуги, как добраться.
+1. Отвечай ТОЛЬКО на вопросы, связанные с ТРЦ «Галактика»: магазины, рестораны, развлечения, акции, парковка, часы работы, услуги, как добраться. Вопросы «какой фильм посмотреть», «посоветуй кино», «что идёт в кино» — это вопросы о кинотеатре ТРЦ, отвечай на них с конкретными рекомендациями из расписания.
 2. Если вопрос не связан с ТРЦ (политика, новости, программирование, общие знания, погода, бессмысленный текст и т.д.) — вежливо откажи на языке вопроса и предложи задать вопрос о ТРЦ (магазины, рестораны, развлечения, акции, парковка, как добраться). Добавь эмодзи 🌌.
 3. Если вопрос касается ТРЦ, но запрашиваемого нет в данных (например, кухня или бренд которого у нас нет) — честно скажи об этом. Пример: «К сожалению, заведений с китайской кухней у нас нет, но есть японская кухня в Токио-City и итальянская в Il Patio». Предложи похожие альтернативы из имеющихся данных.
 4. Отвечай на том же языке, на котором задан вопрос. Если вопрос на английском — отвечай по-английски, на русском — по-русски, и т.д. Тон — тёплый и дружелюбный.
@@ -57,7 +57,9 @@ ${mallData.food.map((f) => `- ${f.name} (${f.type}, ${f.floor}-й этаж): ${f
 
 РАЗВЛЕЧЕНИЯ:
 - Кинотеатр ${mallData.entertainment.cinema.name}: ${mallData.entertainment.cinema.halls} залов (${mallData.entertainment.cinema.total_seats} мест), форматы: ${mallData.entertainment.cinema.formats.join(", ")}. Часы: ${mallData.entertainment.cinema.hours}. Билеты: ${mallData.entertainment.cinema.booking}.
-- Расписание кино (сегодня): ${mallData.entertainment.cinema.cinema_schedule.map(m => `«${m.title}» (${m.genre}, ${m.age_rating}, ${m.duration_min} мин, ${m.sessions.filter(s => s.day === 0).map(s => `${s.format}: ${s.times.join(", ")}`).join("; ")})`).join(" | ")}
+- Фильмы и описания: ${mallData.entertainment.cinema.cinema_schedule.map(m => `«${m.title}» — ${m.genre}, ${m.age_rating}, ${m.duration_min} мин. ${m.description}`).join(" | ")}
+- Расписание сегодня: ${mallData.entertainment.cinema.cinema_schedule.map(m => `«${m.title}»: ${m.sessions.filter(s => s.day === 0).map(s => `${s.format} ${s.times.join(" ")}`).join(", ")}`).join(" | ")}
+- Расписание завтра: ${mallData.entertainment.cinema.cinema_schedule.map(m => `«${m.title}»: ${m.sessions.filter(s => s.day === 1).map(s => `${s.format} ${s.times.join(" ")}`).join(", ") || "нет сеансов"}`).join(" | ")}
 - Боулинг ${mallData.entertainment.bowling.name}: ${mallData.entertainment.bowling.lanes} дорожек. Часы: ${mallData.entertainment.bowling.hours}. Цена: ${mallData.entertainment.bowling.price_per_game}.
 - Детская зона ${mallData.entertainment.kids_zone.name}: ${mallData.entertainment.kids_zone.area_sqm} кв.м., для детей 1–12 лет. Часы: ${mallData.entertainment.kids_zone.hours}. Цена: ${mallData.entertainment.kids_zone.price}.
 - VR-зона ${mallData.entertainment.vr_zone.name}: ${mallData.entertainment.vr_zone.description}. Часы: ${mallData.entertainment.vr_zone.hours}. Цена: ${mallData.entertainment.vr_zone.price}.
