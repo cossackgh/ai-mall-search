@@ -91,6 +91,7 @@ export const mallData = {
       description: "Японская кухня: суши, роллы, рамэн, тэппаньяки",
       hours: "10:00–23:00",
       reservation: true,
+      booking_slots: ["12:00","13:00","14:00","15:00","18:00","19:00","20:00","21:00","22:00"],
     },
     {
       name: "Шашлыкoff",
@@ -99,6 +100,7 @@ export const mallData = {
       description: "Кавказская кухня, шашлыки, хинкали, домашние вина",
       hours: "11:00–23:00",
       reservation: true,
+      booking_slots: ["12:00","13:00","14:00","15:00","18:00","19:00","20:00","21:00","22:00"],
     },
     {
       name: "Stars Coffee",
@@ -123,6 +125,7 @@ export const mallData = {
       description: "Итальянская кухня: паста, пицца, ризотто, тирамису",
       hours: "11:00–23:00",
       reservation: true,
+      booking_slots: ["12:00","13:00","14:00","15:00","18:00","19:00","20:00","21:00","22:00"],
     },
   ],
   entertainment: {
