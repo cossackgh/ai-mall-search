@@ -70,7 +70,7 @@ function MovieCard({ movie }: { movie: Movie }) {
   const todayFormats = Array.from(new Set(todaySessions.map((s) => s.format)));
 
   return (
-    <article className="rounded-2xl overflow-hidden shadow-lg shadow-black/30 bg-white flex flex-row lg:flex-col h-full">
+    <article className="w-full rounded-2xl overflow-hidden shadow-lg shadow-black/30 bg-white flex flex-row lg:flex-col h-full">
       {/* Poster */}
       <div
         className={`relative w-32 flex-shrink-0 lg:w-auto lg:aspect-[2/3] bg-gradient-to-br ${movie.poster_from} ${movie.poster_to} overflow-hidden`}
