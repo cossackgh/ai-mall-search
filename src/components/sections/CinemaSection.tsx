@@ -70,7 +70,7 @@ function MovieCard({ movie }: { movie: Movie }) {
   const todayFormats = Array.from(new Set(todaySessions.map((s) => s.format)));
 
   return (
-    <article className="snap-start flex-shrink-0 w-72 lg:w-auto rounded-2xl overflow-hidden shadow-lg shadow-black/30 bg-white">
+    <article className="snap-start flex-shrink-0 w-72 lg:w-auto rounded-2xl overflow-hidden shadow-lg shadow-black/30 bg-white flex flex-col h-full">
       {/* Poster */}
       <div
         className={`relative aspect-[2/3] bg-gradient-to-br ${movie.poster_from} ${movie.poster_to} overflow-hidden`}
@@ -111,7 +111,7 @@ function MovieCard({ movie }: { movie: Movie }) {
       </div>
 
       {/* Info */}
-      <div className="p-3">
+      <div className="p-3 flex flex-col flex-1">
         <p className="text-xs text-gray-500 mb-2">{movie.genre}</p>
 
         {/* Age + duration row */}
@@ -155,7 +155,7 @@ function MovieCard({ movie }: { movie: Movie }) {
         {/* CTA */}
         <button
           type="button"
-          className="mt-3 text-xs font-semibold text-violet-600 hover:underline focus:outline-none focus:underline"
+          className="mt-auto pt-3 text-xs font-semibold text-violet-600 hover:underline focus:outline-none focus:underline"
           aria-label={`Купить билет на фильм ${movie.title}`}
         >
           Купить билет →
@@ -221,7 +221,7 @@ export default function CinemaSection() {
           aria-label="Фильмы в прокате"
         >
           {schedule.map((movie) => (
-            <div key={movie.id} role="listitem">
+            <div key={movie.id} role="listitem" className="flex">
               <MovieCard movie={movie} />
             </div>
           ))}
