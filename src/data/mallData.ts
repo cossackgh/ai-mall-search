@@ -148,7 +148,7 @@ export const mallData = {
           description: "Механик Джим Престон просыпается в капсуле гибернации космического корабля, который летит на Обитель, новую родину человечества. Его радостно приветствуют голограммы и роботы, но проблема в том, что из-за сбоя Джим проснулся один, а до пункта назначения лететь ещё 90 лет. Не имея возможности уснуть, он пытается развлекаться и напиваться, а через год решается на отчаянный поступок — разбудить ещё одного человека, писательницу Аврору.",
           poster_from: "from-indigo-900",
           poster_to: "to-violet-800",
-          poster_url: "/posters/passengers300x450.webp",
+          poster_url: "/images/posters/passengers300x450.webp",
           sessions: [
             { day: 0, format: "IMAX", times: ["10:30", "14:00", "17:30", "21:00"] },
             { day: 0, format: "3D",   times: ["12:00", "15:30", "19:00", "22:30"] },
@@ -167,7 +167,7 @@ export const mallData = {
           poster_from: "from-amber-700",
           poster_to: "to-orange-600",
           poster_emoji: "🐻",
-          poster_url: "/posters/zhdun300x450.webp",
+          poster_url: "/images/posters/zhdun300x450.webp",
           sessions: [
             { day: 0, format: "2D", times: ["11:00", "13:30", "16:00", "18:30", "21:00"] },
             { day: 1, format: "2D", times: ["12:00", "14:30", "17:00", "19:30", "22:00"] },
@@ -201,7 +201,7 @@ export const mallData = {
           poster_from: "from-slate-800",
           poster_to: "to-blue-900",
           poster_emoji: "🔪",
-          poster_url: "/posters/lookout300x450.webp",
+          poster_url: "/images/posters/lookout300x450.webp",
           sessions: [
             { day: 0, format: "2D", times: ["13:00", "16:30", "20:00", "23:00"] },
             { day: 0, format: "3D", times: ["14:30", "18:00", "21:30"] },
@@ -270,7 +270,7 @@ export const mallData = {
           poster_from: "from-zinc-900",
           poster_to: "to-purple-950",
           poster_emoji: "👁️",
-          poster_url: "/posters/wistle300x450.webp",
+          poster_url: "/images/posters/wistle300x450.webp",
           sessions: [
             { day: 0, format: "2D", times: ["15:00", "18:30", "22:00"] },
             { day: 1, format: "2D", times: ["14:30", "18:00", "21:30"] },
