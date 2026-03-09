@@ -70,7 +70,7 @@ function MovieCard({ movie }: { movie: Movie }) {
   const todayFormats = Array.from(new Set(todaySessions.map((s) => s.format)));
 
   return (
-    <article className="snap-start flex-shrink-0 w-72 lg:w-auto rounded-2xl overflow-hidden shadow-lg shadow-black/30 bg-white flex flex-col h-full">
+    <article className="rounded-2xl overflow-hidden shadow-lg shadow-black/30 bg-white flex flex-col h-full">
       {/* Poster */}
       <div
         className={`relative aspect-[2/3] bg-gradient-to-br ${movie.poster_from} ${movie.poster_to} overflow-hidden`}
@@ -215,8 +215,7 @@ export default function CinemaSection() {
 
         {/* Movie grid — mobile: horizontal scroll, desktop: 4-col grid */}
         <div
-          className="flex overflow-x-auto gap-4 pb-4 -mx-4 px-4 snap-x snap-mandatory
-                     lg:grid lg:grid-cols-4 lg:gap-5 lg:overflow-x-visible lg:mx-0 lg:px-0 lg:pb-0"
+          className="grid grid-cols-2 gap-3 lg:grid-cols-4 lg:gap-5"
           role="list"
           aria-label="Фильмы в прокате"
         >
