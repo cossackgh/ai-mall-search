@@ -73,7 +73,7 @@ function MovieCard({ movie }: { movie: Movie }) {
     <article className="snap-start flex-shrink-0 w-72 lg:w-auto rounded-2xl overflow-hidden shadow-lg shadow-black/30 bg-white">
       {/* Poster */}
       <div
-        className={`relative h-64 bg-gradient-to-br ${movie.poster_from} ${movie.poster_to} overflow-hidden`}
+        className={`relative aspect-[2/3] bg-gradient-to-br ${movie.poster_from} ${movie.poster_to} overflow-hidden`}
         aria-label={`Постер фильма ${movie.title}`}
       >
         {movie.poster_url ? (
