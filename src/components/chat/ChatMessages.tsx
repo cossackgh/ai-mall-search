@@ -23,7 +23,7 @@ export default function ChatMessages({ messages, isLoading }: Props) {
     messages[messages.length - 1].content === "";
 
   return (
-    <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-surface/50">
+    <div className="flex-1 overflow-y-auto px-1.5 sm:px-4 py-3 space-y-3 bg-surface/50">
       {messages.map((message) => (
         <ChatMessage key={message.id} message={message} />
       ))}

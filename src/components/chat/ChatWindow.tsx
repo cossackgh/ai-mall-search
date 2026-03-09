@@ -154,7 +154,7 @@ export default function ChatWindow({ onClose, pendingMessage }: Props) {
   return (
     /* Backdrop */
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 animate-fade-in"
+      className="fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4 animate-fade-in"
       role="dialog"
       aria-modal="true"
       aria-label="Чат с ассистентом ТРЦ «Галактика»"
@@ -167,7 +167,7 @@ export default function ChatWindow({ onClose, pendingMessage }: Props) {
       />
 
       {/* Modal panel */}
-      <div className="relative w-full max-w-2xl mx-4 sm:mx-auto h-[85vh] bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden animate-slide-up">
+      <div className="relative w-full sm:max-w-2xl sm:mx-auto h-[93vh] sm:h-[85vh] bg-white rounded-t-2xl sm:rounded-2xl shadow-2xl flex flex-col overflow-hidden animate-slide-up">
         {/* Header */}
         <div className="gradient-primary px-6 py-4 flex items-center justify-between flex-shrink-0">
           <div className="flex items-center gap-3">
