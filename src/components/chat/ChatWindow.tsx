@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import ChatMessages from "./ChatMessages";
 import ChatInput from "./ChatInput";
 import { Message, ApiMessage } from "@/types";
@@ -13,9 +13,15 @@ const WELCOME_MESSAGE: Message = {
   timestamp: new Date(),
 };
 
-export default function ChatWindow({ onClose }: { onClose: () => void }) {
+interface Props {
+  onClose: () => void;
+  pendingMessage?: string;
+}
+
+export default function ChatWindow({ onClose, pendingMessage }: Props) {
   const [messages, setMessages] = useState<Message[]>([WELCOME_MESSAGE]);
   const [isLoading, setIsLoading] = useState(false);
+  const pendingRef = useRef(pendingMessage);
 
   const sendMessage = useCallback(
     async (text: string) => {
@@ -126,47 +132,88 @@ export default function ChatWindow({ onClose }: { onClose: () => void }) {
     [messages, isLoading]
   );
 
+  // Auto-send pendingMessage on mount
+  useEffect(() => {
+    if (pendingRef.current) {
+      sendMessage(pendingRef.current);
+      pendingRef.current = undefined;
+    }
+    // sendMessage is stable enough for this one-shot effect
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Close on Escape key
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", handleKey);
+    return () => document.removeEventListener("keydown", handleKey);
+  }, [onClose]);
+
   return (
-    <div className="w-[calc(100vw-2rem)] sm:w-[380px] h-[70vh] sm:h-[560px] max-h-[600px] bg-white rounded-3xl shadow-2xl flex flex-col overflow-hidden border border-gray-100">
-      {/* Header */}
-      <div className="gradient-primary px-4 py-3 flex items-center justify-between flex-shrink-0">
-        <div className="flex items-center gap-3">
-          <div className="w-9 h-9 gradient-card rounded-full flex items-center justify-center flex-shrink-0">
-            <span className="text-white text-sm font-bold">Г</span>
-          </div>
-          <div>
-            <p className="text-white font-semibold text-sm">
-              Ассистент Галактики
-            </p>
-            <div className="flex items-center gap-1">
-              <div className="w-2 h-2 bg-green-400 rounded-full" />
-              <p className="text-white/70 text-xs">Онлайн</p>
+    /* Backdrop */
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 animate-fade-in"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Чат с ассистентом ТРЦ «Галактика»"
+    >
+      {/* Clickable backdrop */}
+      <div
+        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+        onClick={onClose}
+        aria-hidden="true"
+      />
+
+      {/* Modal panel */}
+      <div className="relative w-full max-w-2xl mx-4 sm:mx-auto h-[85vh] bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden animate-slide-up">
+        {/* Header */}
+        <div className="gradient-primary px-6 py-4 flex items-center justify-between flex-shrink-0">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 gradient-card rounded-full flex items-center justify-center flex-shrink-0 ring-2 ring-white/20">
+              <span className="text-white text-base font-bold">Г</span>
+            </div>
+            <div>
+              <p className="text-white font-semibold text-base leading-tight">
+                ТРЦ «Галактика»
+              </p>
+              <div className="flex items-center gap-1.5 mt-0.5">
+                <div className="w-2 h-2 bg-green-400 rounded-full" />
+                <p className="text-white/70 text-xs">ИИ-ассистент · Онлайн</p>
+              </div>
             </div>
           </div>
-        </div>
-        <button
-          onClick={onClose}
-          className="text-white/70 hover:text-white transition-colors p-1"
-          aria-label="Закрыть чат"
-        >
-          <svg
-            className="w-5 h-5"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
+          <button
+            onClick={onClose}
+            className="text-white/70 hover:text-white hover:bg-white/10 transition-all p-2 rounded-lg"
+            aria-label="Закрыть чат"
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M6 18L18 6M6 6l12 12"
-            />
-          </svg>
-        </button>
-      </div>
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        </div>
 
-      <ChatMessages messages={messages} isLoading={isLoading} />
-      <ChatInput onSend={sendMessage} isLoading={isLoading} />
+        {/* Messages */}
+        <div className="flex-1 overflow-y-auto">
+          <ChatMessages messages={messages} isLoading={isLoading} />
+        </div>
+
+        {/* Input */}
+        <ChatInput onSend={sendMessage} isLoading={isLoading} />
+      </div>
     </div>
   );
 }

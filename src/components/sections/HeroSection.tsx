@@ -1,10 +1,8 @@
 "use client";
 
-export default function HeroSection() {
-  const openChat = () => {
-    window.dispatchEvent(new CustomEvent("open-chat"));
-  };
+import SearchBar from "@/components/chat/SearchBar";
 
+export default function HeroSection() {
   return (
     <section className="relative min-h-screen gradient-primary flex items-center justify-center overflow-hidden">
       {/* Decorative orbs */}
@@ -58,31 +56,15 @@ export default function HeroSection() {
           ))}
         </div>
 
-        {/* CTAs */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <button
-            onClick={openChat}
-            className="bg-primary hover:bg-primary-dark text-white font-bold px-8 py-4 rounded-2xl
-                       transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-primary/50
-                       flex items-center justify-center gap-2"
-          >
-            <svg
-              className="w-5 h-5"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-            >
-              <path d="M2 5a2 2 0 012-2h7a2 2 0 012 2v4a2 2 0 01-2 2H9l-3 3v-3H4a2 2 0 01-2-2V5z" />
-              <path d="M15 7v2a4 4 0 01-4 4H9.828l-1.766 1.767c.28.149.599.233.938.233h2l3 3v-3h2a2 2 0 002-2V9a2 2 0 00-2-2h-1z" />
-            </svg>
-            Задать вопрос ассистенту
-          </button>
-          <a
-            href="#shops"
-            className="border border-white/30 hover:border-white/60 text-white font-semibold px-8 py-4
-                       rounded-2xl transition-all duration-300 hover:bg-white/10 backdrop-blur-sm"
-          >
-            Каталог магазинов
-          </a>
+        {/* Search bar CTA */}
+        <div className="w-full max-w-xl mx-auto">
+          <SearchBar
+            size="lg"
+            placeholder="Найти магазин, ресторан, услугу..."
+          />
+          <p className="text-white/40 text-xs mt-3">
+            Нажмите Enter или кнопку — ИИ-ассистент ответит мгновенно
+          </p>
         </div>
       </div>
 
@@ -93,6 +75,7 @@ export default function HeroSection() {
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
+          aria-hidden="true"
         >
           <path
             strokeLinecap="round"
