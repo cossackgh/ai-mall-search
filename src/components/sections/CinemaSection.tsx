@@ -17,7 +17,8 @@ type Movie = {
   description: string;
   poster_from: string;
   poster_to: string;
-  poster_emoji: string;
+  poster_emoji?: string;
+  poster_url?: string;
   sessions: MovieSession[];
 };
 
@@ -72,14 +73,23 @@ function MovieCard({ movie }: { movie: Movie }) {
     <article className="snap-start flex-shrink-0 w-72 lg:w-auto rounded-2xl overflow-hidden shadow-lg shadow-black/30 bg-white">
       {/* Poster */}
       <div
-        className={`relative h-44 bg-gradient-to-br ${movie.poster_from} ${movie.poster_to} overflow-hidden`}
+        className={`relative h-64 bg-gradient-to-br ${movie.poster_from} ${movie.poster_to} overflow-hidden`}
         aria-label={`Постер фильма ${movie.title}`}
       >
-        <div className="absolute inset-0 flex items-center justify-center">
-          <span className="text-6xl opacity-60" role="img" aria-hidden="true">
-            {movie.poster_emoji}
-          </span>
-        </div>
+        {movie.poster_url ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={movie.poster_url}
+            alt={`Постер фильма ${movie.title}`}
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+        ) : (
+          <div className="absolute inset-0 flex items-center justify-center">
+            <span className="text-6xl opacity-60" role="img" aria-hidden="true">
+              {movie.poster_emoji}
+            </span>
+          </div>
+        )}
 
         {/* Format badges top-right */}
         <div
