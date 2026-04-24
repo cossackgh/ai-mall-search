@@ -9,8 +9,8 @@
 ## Первый деплой
 
 ```bash
-git clone git@github.com:cossackgh/ai-mall-search.git /var/www/ai-mall-search
-cd /var/www/ai-mall-search
+git clone git@github.com:cossackgh/ai-mall-search.git /var/www/trc-galactica.za-vod.ru
+cd /var/www/trc-galactica.za-vod.ru
 
 # Создать .env.local (взять у владельца)
 nano .env.local
@@ -42,7 +42,7 @@ certbot --nginx -d trc-galactica.za-vod.ru
 ## Пересборка после изменений в коде
 
 ```bash
-cd /var/www/ai-mall-search
+cd /var/www/trc-galactica.za-vod.ru
 git pull origin main
 docker compose up -d --build
 ```
@@ -54,12 +54,12 @@ docker compose up -d --build
 1. Получить новый токен у провайдера Ollama
 2. Обновить на сервере:
 ```bash
-nano /var/www/ai-mall-search/.env.local
+nano /var/www/trc-galactica.za-vod.ru/.env.local
 # Изменить OLLAMA_API_KEY, сохранить: Ctrl+O → Enter → Ctrl+X
 ```
 3. Перезапустить контейнер:
 ```bash
-cd /var/www/ai-mall-search && docker compose restart
+cd /var/www/trc-galactica.za-vod.ru && docker compose restart
 ```
 
 ---
@@ -92,6 +92,6 @@ OLLAMA_API_KEY=<токен>
 ## Обновить nginx.conf
 
 ```bash
-cp /var/www/ai-mall-search/nginx.conf /etc/nginx/sites-available/trc-galactica
+cp /var/www/trc-galactica.za-vod.ru/nginx.conf /etc/nginx/sites-available/trc-galactica
 nginx -t && systemctl reload nginx
 ```
