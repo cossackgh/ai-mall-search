@@ -1,48 +1,66 @@
 # Деплой и обслуживание
 
 ## Сервер
-- **URL:** https://trc-galactika-mvp.grandfs-develop.ru
-- **Папка проекта:** `/var/www/trc-galactika-mvp/trc-galactika-mvp/`
-- **GitLab:** `git@gitlab.com:grandfs/anyother/trc-galactika-mvp.git`
+- **URL:** https://trc-galactica.za-vod.ru
+- **GitHub:** `git@github.com:cossackgh/ai-mall-search.git`
 
 ---
 
-## Пересборка после изменений
+## Первый деплой
 
 ```bash
-cd /var/www/trc-galactika-mvp/trc-galactika-mvp
+git clone git@github.com:cossackgh/ai-mall-search.git /var/www/ai-mall-search
+cd /var/www/ai-mall-search
 
-git pull
+# Создать .env.local (взять у владельца)
+nano .env.local
 
-docker build -t trc-galaktika .
-
-docker stop trc-galaktika && docker rm trc-galaktika
-
-docker run -d \
-  --name trc-galaktika \
-  --restart unless-stopped \
-  -p 127.0.0.1:3044:3044 \
-  --add-host=host.docker.internal:host-gateway \
-  --env-file .env.local \
-  trc-galaktika
+# Запустить приложение
+docker compose up -d --build
 ```
 
-**Одной командой:**
+Проверить:
 ```bash
-cd /var/www/trc-galactika-mvp/trc-galactika-mvp && git pull && docker build -t trc-galaktika . && docker stop trc-galaktika && docker rm trc-galaktika && docker run -d --name trc-galaktika --restart unless-stopped -p 127.0.0.1:3044:3044 --add-host=host.docker.internal:host-gateway --env-file .env.local trc-galaktika
+docker compose ps
+curl http://localhost:3044
+```
+
+Подключить nginx:
+```bash
+cp nginx.conf /etc/nginx/sites-available/trc-galactica
+ln -s /etc/nginx/sites-available/trc-galactica /etc/nginx/sites-enabled/
+nginx -t && systemctl reload nginx
+```
+
+Получить SSL-сертификат (certbot сам добавит HTTPS блок):
+```bash
+certbot --nginx -d trc-galactica.za-vod.ru
 ```
 
 ---
 
-## Обновить JWT-токен (истекает периодически)
+## Пересборка после изменений в коде
 
-1. Открыть https://ai-ollama.grandfs-develop.ru → Настройки → Учётная запись → скопировать **Токен JWT**
+```bash
+cd /var/www/ai-mall-search
+git pull origin main
+docker compose up -d --build
+```
+
+---
+
+## Обновить API-ключ (истекает периодически)
+
+1. Получить новый токен у провайдера Ollama
 2. Обновить на сервере:
 ```bash
-nano /var/www/trc-galactika-mvp/trc-galactika-mvp/.env.local
+nano /var/www/ai-mall-search/.env.local
 # Изменить OLLAMA_API_KEY, сохранить: Ctrl+O → Enter → Ctrl+X
 ```
-3. Перезапустить контейнер (шаги `docker stop` → `docker run` выше)
+3. Перезапустить контейнер:
+```bash
+cd /var/www/ai-mall-search && docker compose restart
+```
 
 ---
 
@@ -50,10 +68,10 @@ nano /var/www/trc-galactika-mvp/trc-galactika-mvp/.env.local
 
 ```bash
 # Контейнер запущен?
-docker ps | grep trc
+docker compose ps
 
 # Логи (последние 50 строк)
-docker logs trc-galaktika --tail 50
+docker compose logs --tail 50
 
 # Слушает ли порт?
 ss -tlnp | grep 3044
@@ -64,23 +82,16 @@ ss -tlnp | grep 3044
 ## Структура .env.local на сервере
 
 ```
-OLLAMA_BASE_URL=http://host.docker.internal:3080/api
+OLLAMA_BASE_URL=https://ai-ollama.grandfs-develop.ru/api
 OLLAMA_MODEL=deepseek-v3.1:671b-cloud
-OLLAMA_API_KEY=<JWT токен из Open WebUI>
+OLLAMA_API_KEY=<токен>
 ```
-
-> `host.docker.internal` — обращение к Open WebUI напрямую внутри сервера,
-> минуя внешний домен. Без флага `--add-host=host.docker.internal:host-gateway`
-> в `docker run` работать не будет.
 
 ---
 
-## Nginx
-
-Конфиг: `nginx.conf` в корне проекта.
+## Обновить nginx.conf
 
 ```bash
-# Применить обновлённый конфиг
-cp /var/www/trc-galactika-mvp/trc-galactika-mvp/nginx.conf /etc/nginx/sites-available/trc-galactika-mvp
+cp /var/www/ai-mall-search/nginx.conf /etc/nginx/sites-available/trc-galactica
 nginx -t && systemctl reload nginx
 ```
